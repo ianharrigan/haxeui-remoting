@@ -15,13 +15,13 @@ class Util {
         if (c.percentWidth != null)         sb.add(', percentWidth: ${c.percentWidth}');
         if (c.percentHeight != null)        sb.add(', percentHeight: ${c.percentHeight}');
         sb.add("\n");
-        
+
         if (c.children != null) {
             for (child in c.children) {
                 sb.add(buildComponentInfo(child, indent + "  "));
             }
         }
-        
+
         return sb.toString();
     }
 }

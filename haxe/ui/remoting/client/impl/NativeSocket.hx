@@ -15,23 +15,23 @@ import cpp.vm.Thread;
 class NativeSocket {
     private var _socket:Socket;
     private var _readThread:Thread;
-    
+
     public var onMessage:Msg->Void;
-    
+
     public function new(host:String, port:Int) {
         _readThread = Thread.create(readThread);
-        
+
         _socket = new Socket();
         _socket.connect(new Host(host), port);
         _readThread.sendMessage(this);
     }
-    
+
     public function sendMessage(msg:Msg) {
         var data:String = ClientSocket.serializeMsg(msg);
         _socket.output.writeInt32(data.length);
         _socket.output.writeString(data);
     }
-    
+
     private function readThread() {
         var that:NativeSocket = Thread.readMessage(true);
         var c = true;
@@ -42,7 +42,7 @@ class NativeSocket {
                 var c = that._socket.input.readByte();
                 data += String.fromCharCode(c);
             }
-            
+
             var unserializer:Unserializer = new Unserializer(data);
             var msg:Msg = unserializer.unserialize();
             if (onMessage != null) {

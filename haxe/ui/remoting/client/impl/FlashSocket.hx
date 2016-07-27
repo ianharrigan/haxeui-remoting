@@ -10,9 +10,9 @@ import haxe.ui.remoting.client.ClientSocket;
 class FlashSocket {
     private var _socket:Socket;
     private var _buffer:ByteArray = new ByteArray();
-    
+
     public var onMessage:Msg->Void;
-    
+
     public function new(host:String, port:Int) {
         _socket = new Socket(host, port);
         _socket.addEventListener(ProgressEvent.SOCKET_DATA, onData);
@@ -26,10 +26,10 @@ class FlashSocket {
         _socket.writeUTFBytes(data);
         _socket.flush();
     }
-    
+
     private function onData(event:ProgressEvent) {
         var socket:Socket = event.currentTarget;
-        
+
         var len = socket.readInt();
         while (len <= cast(socket.bytesAvailable, Int)) {
             var s:String = socket.readUTFBytes(len);
@@ -47,7 +47,7 @@ class FlashSocket {
             }
         }
     }
-    
+
     private function onIOError(event:IOErrorEvent) {
         trace(event);
     }

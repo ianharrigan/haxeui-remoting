@@ -2,11 +2,12 @@ package haxe.ui.remoting.server;
 
 #if neko
 import neko.vm.Thread;
+import neko.net.WebSocketServerLoop;
 #elseif cpp
 import cpp.vm.Thread;
+import cpp.net.WebSocketServerLoop;
 #end
 import haxe.ui.remoting.Msg;
-import neko.net.WebSocketServerLoop;
 import sys.net.Host;
 import sys.net.WebSocket;
 

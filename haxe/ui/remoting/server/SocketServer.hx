@@ -2,8 +2,14 @@ package haxe.ui.remoting.server;
 
 import haxe.io.Bytes;
 import haxe.ui.remoting.Msg;
+#if neko
 import neko.net.ThreadServer;
 import neko.vm.Thread;
+#elseif cpp
+import cpp.net.ThreadServer;
+import cpp.vm.Thread;
+#end
+
 import sys.net.Socket;
 
 class SocketServer extends ThreadServer<SocketClient, Msg> {

@@ -17,15 +17,28 @@ class NativeSocket {
     private var _readThread:Thread;
 
     public var onMessage:Msg->Void;
+    public var onError:String->Void;
 
-    public function new(host:String, port:Int) {
-        _readThread = Thread.create(readThread);
-
-        _socket = new Socket();
-        _socket.connect(new Host(host), port);
-        _readThread.sendMessage(this);
+    public function new() {
     }
 
+    public function connect(host:String = "localhost", port:Int = 1234) {
+        try {
+            _socket = new Socket();
+            _socket.connect(new Host(host), port);
+        } catch (e:Dynamic) {
+            trace(e);            
+            if (onError != null) {
+                onError(e);
+            }
+            return;
+        }
+        
+        _readThread = Thread.create(readThread);
+
+        _readThread.sendMessage(this);
+    }
+    
     public function sendMessage(msg:Msg) {
         var data:String = ClientSocket.serializeMsg(msg);
         _socket.output.writeInt32(data.length);
@@ -36,17 +49,26 @@ class NativeSocket {
         var that:NativeSocket = Thread.readMessage(true);
         var c = true;
         while (c == true) {
-            var len = that._socket.input.readInt32();
-            var data:String = "";
-            for (i in 0...len) {
-                var c = that._socket.input.readByte();
-                data += String.fromCharCode(c);
-            }
+            try {
+                var len = that._socket.input.readInt32();
+                var data:String = "";
+                for (i in 0...len) {
+                    var c = that._socket.input.readByte();
+                    data += String.fromCharCode(c);
+                }
 
-            var unserializer:Unserializer = new Unserializer(data);
-            var msg:Msg = unserializer.unserialize();
-            if (onMessage != null) {
-                onMessage(msg);
+                var unserializer:Unserializer = new Unserializer(data);
+                var msg:Msg = unserializer.unserialize();
+                if (onMessage != null) {
+                    onMessage(msg);
+                }
+            } catch (e:Dynamic) {
+                trace(e);
+                if (that.onError != null) {
+                    that.onError(e);
+                    c = false;
+                    break;
+                }
             }
         }
     }

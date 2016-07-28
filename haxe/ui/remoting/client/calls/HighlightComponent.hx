@@ -16,18 +16,24 @@ class HighlightComponent extends Call {
         
         var component:Component = Screen.instance.rootComponents[0].findComponent(id, Component, true);
         if (component != null) {
-            if (overlay == null) {
-                overlay = new Component();
-                overlay.includeInLayout = false;
-                overlay.styleString = "border: 2px solid #FF0000;background-color: #FFCCCC; border-radius:2px;opacity: 0.5";
+            if (hightlight == true) {
+                if (overlay == null) {
+                    overlay = new Component();
+                    overlay.includeInLayout = false;
+                    overlay.styleString = "border: 2px solid #FF0000;background-color: #FFCCCC; border-radius:2px;opacity: 0.5";
+                }
+                
+                overlay.left = component.screenLeft;
+                overlay.top = component.screenTop;
+                overlay.width = component.componentWidth;
+                overlay.height = component.componentHeight;
+                
+                Screen.instance.addComponent(overlay);
+            } else {
+                if (overlay != null) {
+                    Screen.instance.removeComponent(overlay);
+                }
             }
-            
-            overlay.left = component.screenLeft;
-            overlay.top = component.screenTop;
-            overlay.width = component.componentWidth;
-            overlay.height = component.componentHeight;
-            
-            Screen.instance.rootComponents[0].addComponent(overlay);
         }
         
         return null;

@@ -6,19 +6,21 @@ class Server {
     public var clients:Array<Client> = new Array<Client>();
 
     public var onConnected:Client->Void;
+    public var onDisconnected:Client->Void;
 
     public function new(host:String = "localhost", port:Int = 1234) {
         var ws:WebSocketServer = new WebSocketServer(host, port + 1); // hack for html5 / websockets - actually starts two servers!
         ws.onMessage = onMessage;
-        ws.onNewClient = onNewClient;
+        ws.onClientConnected = onClientConnected;
 
         var ss:SocketServer = new SocketServer(host, port);
-        ss.onNewClient = onNewClient;
+        ss.onClientConnected = onClientConnected;
+        ss.onClientDisconnected = onClientDisconnected;
         ss.onMessage = onMessage;
     }
 
-    private function onNewClient(client:Client) {
-        trace("NEW CLIENT CONNECTED!");
+    private function onClientConnected(client:Client) {
+        trace("CLIENT CONNECTED!");
         client.uuid = GUID.uuid();
 
         clients.push(client);
@@ -32,6 +34,14 @@ class Server {
         }
     }
 
+    private function onClientDisconnected(client:Client) {
+        trace("CLIENT DISCONNECTED - "  + client.uuid);
+        if (onDisconnected != null) {
+            onDisconnected(client);
+            clients.remove(client);
+        }
+    }
+    
     private function onMessage(client:Client, msg:Msg) {
     }
     

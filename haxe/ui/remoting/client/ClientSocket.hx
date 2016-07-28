@@ -16,10 +16,9 @@ class ClientSocket {
     private var _socket:SocketImpl;
 
     public var onMessage:Msg->Void;
+    public var onError:String->Void;
 
-    public function new(host:String, port:Int) {
-        _socket = new SocketImpl(host, port);
-        _socket.onMessage = onMessageInternal;
+    public function new() {
     }
 
     private function onMessageInternal(msg:Msg) {
@@ -28,6 +27,13 @@ class ClientSocket {
         }
     }
 
+    public function connect(host:String, port:Int) {
+        _socket = new SocketImpl();
+        _socket.onMessage = onMessageInternal;
+        _socket.onError = onError;
+        _socket.connect(host, port);
+    }
+    
     public function sendMessage(msg:Msg) {
         _socket.sendMessage(msg);
     }

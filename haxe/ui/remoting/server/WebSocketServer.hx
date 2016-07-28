@@ -16,7 +16,7 @@ class WebSocketServer {
 
     private var _serverThread:Thread;
 
-    public var onNewClient:Client->Void;
+    public var onClientConnected:Client->Void;
     public var onMessage:Client->Msg->Void;
 
     public function new(host:String, port:Int) {
@@ -39,11 +39,11 @@ class WebSocketServer {
             trace("Incoming: " + data);
             // use "connection.ws" to send answer
             // use "serverLoop.closeConnection(connection.ws.socket)" to close connection and remove socket from processing
-            if (data == "ready" && that.onNewClient != null) {
+            if (data == "ready" && that.onClientConnected != null) {
                 var client:WebSocketClient = new WebSocketClient();
                 client.connection = connection;
                 connection.client = client;
-                that.onNewClient(client);
+                that.onClientConnected(client);
             } else {
                 var msg = Client.unserializeMsg(data);
                 if (connection.client.onMessageInternal(msg) == false) {

@@ -12,9 +12,9 @@ class SocketServer extends ThreadServer<SocketClient, Msg> {
 
     private var _serverThread:Thread;
 
-    public var onNewClient:Client->Void;
-    public var onClientDisconnected:Client->Void;
-    public var onMessage:Client->Msg->Void;
+    public var onClientConnected:SocketClient->Void;
+    public var onClientDisconnected:SocketClient->Void;
+    public var onMessage:SocketClient->Msg->Void;
 
     public function new(host:String, port:Int) {
         super();
@@ -35,14 +35,15 @@ class SocketServer extends ThreadServer<SocketClient, Msg> {
         socket.setFastSend(true);
         var client:SocketClient = new SocketClient();
         client.socket = socket;
-        if (onNewClient != null) {
-            onNewClient(client);
+        if (onClientConnected != null) {
+            onClientConnected(client);
         }
         return client;
     }
 
     public override function clientDisconnected(socket:SocketClient) {
         if (onClientDisconnected != null) {
+            onClientDisconnected(socket);
         }
     }
 

@@ -39,6 +39,13 @@ class NativeSocket {
         _readThread.sendMessage(this);
     }
     
+    public function disconnect() {
+        if (_socket != null) {
+            _socket.close();
+            _socket = null;
+        }
+    }
+    
     public function sendMessage(msg:Msg) {
         var data:String = ClientSocket.serializeMsg(msg);
         _socket.output.writeInt32(data.length);

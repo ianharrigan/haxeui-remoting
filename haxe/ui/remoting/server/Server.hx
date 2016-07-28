@@ -34,4 +34,15 @@ class Server {
 
     private function onMessage(client:Client, msg:Msg) {
     }
+    
+    public function findClient(uuid:String):Client {
+        var client:Client = null;
+        for (c in clients) {
+            if (c.uuid == uuid) {
+                client = c;
+                break;
+            }
+        }
+        return client;
+    }
 }

@@ -3,6 +3,7 @@ package haxe.ui.remoting.client.calls;
 import haxe.ui.core.Component;
 import haxe.ui.core.Screen;
 import haxe.ui.remoting.ComponentInfo;
+import haxe.ui.util.GUID;
 
 class ListComponents extends Call {
     public function new() {
@@ -24,6 +25,10 @@ class ListComponents extends Call {
 
     @:access(haxe.ui.core.Component)
     private static function buildComponentTree(c:Component, i:ComponentInfo) {
+        if (c.id == null) {
+            c.id = "__" + GUID.uuid();
+        }
+        
         if (c.id != null)                           i.id = c.id;
         if (c.left != null)                         i.left = c.left;
         if (c.top != null)                          i.top = c.top;

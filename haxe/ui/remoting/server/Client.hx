@@ -16,8 +16,10 @@ class Client {
         throw "Not implemented";
     }
 
-    public function makeCall(id:String, params:Map<String, String> = null, fn:Dynamic->Void) {
-        _callMap.set(id, fn);
+    public function makeCall(id:String, params:Map<String, String> = null, fn:Dynamic->Void = null) {
+        if (fn != null) {
+            _callMap.set(id, fn);
+        }
         sendMessage({
            id: id,
            details: params

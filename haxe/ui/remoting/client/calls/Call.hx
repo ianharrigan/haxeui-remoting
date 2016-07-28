@@ -13,6 +13,8 @@ class Call {
         switch (name) {
             case "components.list":
                 return new ListComponents();
+            case "component.highlight":
+                return new HighlightComponent();
         }
 
         return null;

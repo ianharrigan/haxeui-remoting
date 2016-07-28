@@ -45,6 +45,7 @@ class Client {
         }
     }
     
+    #if (neko || cpp)
     private function onError(error:String) {
         trace(error);
         var t:Thread = Thread.create(retryThread);
@@ -56,4 +57,26 @@ class Client {
         Sys.sleep(5);
         that.connect();
     }
+    #elseif flash
+    private function onError(error:String) {
+        var t:flash.utils.Timer = new flash.utils.Timer(5000, 1);
+        t.addEventListener(flash.events.TimerEvent.TIMER_COMPLETE, function(e) {
+            t.stop();
+            _socket.disconnect();
+            _socket = null;
+           connect();
+        });
+        t.start();
+    }
+    #elseif js
+    private function onError(error:String) {
+        var timer = new Timer(5000);
+        timer.run = function() {
+            timer.stop();
+            _socket.disconnect();
+            _socket = null;
+            connect();
+        }
+    }
+    #end
 }

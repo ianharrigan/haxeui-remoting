@@ -7,9 +7,15 @@ import js.html.WebSocket;
 
 class JavaScriptSocket {
     public var onMessage:Msg->Void;
+    public var onError:String->Void;
+    
     private var _socket:WebSocket;
 
-    public function new(host:String, port:Int) {
+    public function new() {
+    }
+
+    public function connect(host:String, port:Int) {
+        disconnect();
         _socket = new WebSocket("ws://" + host + ":" + (port + 1));
         _socket.onopen = function() {
             _socket.send("ready");
@@ -20,8 +26,29 @@ class JavaScriptSocket {
                 onMessage(msg);
             }
         }
+        _socket.onerror = function(e) {
+            if (onError != null) {
+                onError(e);
+            }
+        }
+        _socket.onclose = function() {
+            if (onError != null) {
+                onError(null);
+            }
+        }
     }
-
+    
+    public function disconnect() {
+        if (_socket != null) {
+            _socket.onopen = null;
+            _socket.onmessage = null;
+            _socket.onerror = null;
+            _socket.onclose = null;
+            _socket.close();
+            _socket = null;
+        }
+    }
+    
     public function sendMessage(msg:Msg) {
         var data:String = ClientSocket.serializeMsg(msg);
         _socket.send(data);

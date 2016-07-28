@@ -17,6 +17,7 @@ class WebSocketServer {
     private var _serverThread:Thread;
 
     public var onClientConnected:Client->Void;
+    public var onClientDisconnected:Client->Void;
     public var onMessage:Client->Msg->Void;
 
     public function new(host:String, port:Int) {
@@ -53,6 +54,11 @@ class WebSocketServer {
                 }
             }
         };
+        serverLoop.processClientDisconnected = function(connection:WebSocketConnection) {
+            if (that.onClientDisconnected != null) {
+                that.onClientDisconnected(connection.client);
+            }
+        }
 
         serverLoop.run(new Host(_host), _port);
     }

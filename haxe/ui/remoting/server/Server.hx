@@ -12,6 +12,7 @@ class Server {
         var ws:WebSocketServer = new WebSocketServer(host, port + 1); // hack for html5 / websockets - actually starts two servers!
         ws.onMessage = onMessage;
         ws.onClientConnected = onClientConnected;
+        ws.onClientDisconnected = onClientDisconnected;
 
         var ss:SocketServer = new SocketServer(host, port);
         ss.onClientConnected = onClientConnected;

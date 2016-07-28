@@ -21,17 +21,18 @@ class HighlightComponent extends Call {
                     overlay = new Component();
                     overlay.includeInLayout = false;
                     overlay.styleString = "border: 2px solid #FF0000;background-color: #FFCCCC; border-radius:2px;opacity: 0.5";
+                    Screen.instance.addComponent(overlay);
                 }
                 
                 overlay.left = component.screenLeft;
                 overlay.top = component.screenTop;
                 overlay.width = component.componentWidth;
                 overlay.height = component.componentHeight;
-                
-                Screen.instance.addComponent(overlay);
+                overlay.show();            
             } else {
                 if (overlay != null) {
-                    Screen.instance.removeComponent(overlay);
+                    //Screen.instance.removeComponent(overlay);
+                    overlay.hide();
                 }
             }
         }

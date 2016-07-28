@@ -34,6 +34,15 @@ class ClientSocket {
         _socket.connect(host, port);
     }
     
+    public function disconnect() {
+        if (_socket != null) {
+            _socket.disconnect();
+            _socket.onMessage = null;
+            _socket.onError = null;
+            _socket = null;
+        }
+    }
+    
     public function sendMessage(msg:Msg) {
         _socket.sendMessage(msg);
     }

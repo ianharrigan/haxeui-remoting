@@ -109,7 +109,8 @@ class WebSocketServerLoop<TClientData:ClientData> extends neko.net.ServerLoop<TC
             else
             if (buf.get(bufpos) == 0x88)
             {
-                throw "Client request connection to close.";
+                //throw "Client request connection to close.";
+                processClientDisconnected(d);
             }
             else
             {
@@ -196,6 +197,10 @@ class WebSocketServerLoop<TClientData:ClientData> extends neko.net.ServerLoop<TC
     // --- CUSTOMIZABLE API ---
 
     public dynamic function processIncomingMessage(data:TClientData, message:String)
+    {
+    }
+    
+    public dynamic function processClientDisconnected(data:TClientData)
     {
     }
 }

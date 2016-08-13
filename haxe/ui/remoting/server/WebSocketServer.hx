@@ -29,6 +29,9 @@ class WebSocketServer {
         _serverThread.sendMessage(this);
     }
 
+    public function stop() {
+    }
+    
     @:access(haxe.ui.remoting.server.Client)
     private function serverThread() {
         var that:WebSocketServer = Thread.readMessage(true);
@@ -38,7 +41,7 @@ class WebSocketServer {
             return conn;
         });
         serverLoop.processIncomingMessage = function(connection:WebSocketConnection, data:String) {
-            trace("Incoming: " + data);
+            //trace("Incoming: " + data);
             // use "connection.ws" to send answer
             // use "serverLoop.closeConnection(connection.ws.socket)" to close connection and remove socket from processing
             if (data == "ready" && that.onClientConnected != null) {

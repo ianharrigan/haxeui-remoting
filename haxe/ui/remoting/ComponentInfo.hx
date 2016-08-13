@@ -6,6 +6,8 @@ typedef ComponentInfo = {
     @:optional var children:Array<ComponentInfo>;
     @:optional var left:Float;
     @:optional var top:Float;
+    @:optional var screenLeft:Float;
+    @:optional var screenTop:Float;
     @:optional var width:Float;
     @:optional var height:Float;
     @:optional var percentWidth:Float;

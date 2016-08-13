@@ -32,6 +32,10 @@ class SocketServer extends ThreadServer<SocketClient, Msg> {
         _serverThread.sendMessage(this);
     }
 
+    public function stop() {
+        
+    }
+    
     private function serverThread() {
         var that:SocketServer = Thread.readMessage(true);
         that.run(that._host, that._port);

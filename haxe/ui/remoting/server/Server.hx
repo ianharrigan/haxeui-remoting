@@ -1,6 +1,6 @@
 package haxe.ui.remoting.server;
 import haxe.ui.remoting.Msg;
-import haxe.ui.util.GUID;
+//import haxe.ui.util.GUID;
 
 class Server {
     public var clients:Array<Client> = new Array<Client>();
@@ -8,21 +8,36 @@ class Server {
     public var onConnected:Client->Void;
     public var onDisconnected:Client->Void;
 
-    public function new(host:String = "localhost", port:Int = 1234) {
-        var ws:WebSocketServer = new WebSocketServer(host, port + 1); // hack for html5 / websockets - actually starts two servers!
-        ws.onMessage = onMessage;
-        ws.onClientConnected = onClientConnected;
-        ws.onClientDisconnected = onClientDisconnected;
-
-        var ss:SocketServer = new SocketServer(host, port);
-        ss.onClientConnected = onClientConnected;
-        ss.onClientDisconnected = onClientDisconnected;
-        ss.onMessage = onMessage;
+    private var _ws:WebSocketServer;
+    private var _ss:SocketServer;
+    
+    public function new() {
     }
 
+    public function start(host:String = "localhost", port:Int = 1234) {
+        _ws = new WebSocketServer(host, port + 1); // hack for html5 / websockets - actually starts two servers!
+        _ws.onMessage = onMessage;
+        _ws.onClientConnected = onClientConnected;
+        _ws.onClientDisconnected = onClientDisconnected;
+
+        _ss = new SocketServer(host, port);
+        _ss.onClientConnected = onClientConnected;
+        _ss.onClientDisconnected = onClientDisconnected;
+        _ss.onMessage = onMessage;
+    }
+    
+    public function stop() {
+        if (_ws != null) {
+            _ws.stop();
+        }
+        if (_ss != null) {
+            _ss.stop();
+        }
+    }
+    
     private function onClientConnected(client:Client) {
-        trace("CLIENT CONNECTED!");
-        client.uuid = GUID.uuid();
+        //trace("CLIENT CONNECTED!");
+        //client.uuid = GUID.uuid();
 
         clients.push(client);
         var msg:Msg = {
@@ -36,7 +51,6 @@ class Server {
     }
 
     private function onClientDisconnected(client:Client) {
-        trace("CLIENT DISCONNECTED - "  + client.uuid);
         if (onDisconnected != null) {
             onDisconnected(client);
             clients.remove(client);

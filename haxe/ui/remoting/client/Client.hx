@@ -29,6 +29,10 @@ class Client {
         if (msg.id == "client.connected") {
             return;
         }
+        if (msg.id == "client.disconnect") {
+            _socket.disconnect();
+            return;
+        }
         if (call == null) {
             trace("WARNING: message unrecognised, id=" + msg.id);
             return;

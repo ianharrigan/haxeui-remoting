@@ -32,6 +32,8 @@ class ListComponents extends Call {
         if (c.id != null)                           i.id = c.id;
         if (c.left != null)                         i.left = c.left;
         if (c.top != null)                          i.top = c.top;
+        if (c.left != null)                         i.screenLeft = c.screenLeft;
+        if (c.top != null)                          i.screenTop = c.screenTop;
         if (c.componentWidth != null)               i.width = c.componentWidth;
         if (c.componentHeight != null)              i.height = c.componentHeight;
         if (c.percentWidth != null)                 i.percentWidth = c.percentWidth;

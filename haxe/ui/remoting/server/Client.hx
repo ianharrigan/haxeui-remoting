@@ -37,6 +37,10 @@ class Client {
         return true;
     }
 
+    public function close() {
+        
+    }
+    
     public static function serializeMsg(msg:Msg):String {
         var serializer:Serializer = new Serializer();
         serializer.serialize(msg);

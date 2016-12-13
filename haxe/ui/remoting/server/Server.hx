@@ -10,7 +10,7 @@ class Server {
 
     private var _ws:WebSocketServer;
     private var _ss:SocketServer;
-    
+
     public function new() {
     }
 
@@ -25,7 +25,7 @@ class Server {
         _ss.onClientDisconnected = onClientDisconnected;
         _ss.onMessage = onMessage;
     }
-    
+
     public function stop() {
         if (_ws != null) {
             _ws.stop();
@@ -34,7 +34,7 @@ class Server {
             _ss.stop();
         }
     }
-    
+
     private function onClientConnected(client:Client) {
         //trace("CLIENT CONNECTED!");
         //client.uuid = GUID.uuid();
@@ -56,10 +56,10 @@ class Server {
             clients.remove(client);
         }
     }
-    
+
     private function onMessage(client:Client, msg:Msg) {
     }
-    
+
     public function findClient(uuid:String):Client {
         var client:Client = null;
         for (c in clients) {

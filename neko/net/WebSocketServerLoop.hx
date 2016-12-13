@@ -199,7 +199,7 @@ class WebSocketServerLoop<TClientData:ClientData> extends neko.net.ServerLoop<TC
     public dynamic function processIncomingMessage(data:TClientData, message:String)
     {
     }
-    
+
     public dynamic function processClientDisconnected(data:TClientData)
     {
     }

@@ -27,25 +27,25 @@ class NativeSocket {
             _socket = new Socket();
             _socket.connect(new Host(host), port);
         } catch (e:Dynamic) {
-            trace(e);            
+            trace(e);
             if (onError != null) {
                 onError(e);
             }
             return;
         }
-        
+
         _readThread = Thread.create(readThread);
 
         _readThread.sendMessage(this);
     }
-    
+
     public function disconnect() {
         if (_socket != null) {
             _socket.close();
             _socket = null;
         }
     }
-    
+
     public function sendMessage(msg:Msg) {
         var data:String = ClientSocket.serializeMsg(msg);
         _socket.output.writeInt32(data.length);

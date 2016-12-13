@@ -15,6 +15,10 @@ class Call {
                 return new ListComponents();
             case "component.highlight":
                 return new HighlightComponent();
+            case "component.removeAllChildren":
+                return new RemoveAllChildComponents();
+            case "component.create":
+                return new CreateComponent();
         }
 
         return null;

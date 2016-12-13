@@ -8,7 +8,7 @@ import js.html.WebSocket;
 class JavaScriptSocket {
     public var onMessage:Msg->Void;
     public var onError:String->Void;
-    
+
     private var _socket:WebSocket;
 
     public function new() {
@@ -37,7 +37,7 @@ class JavaScriptSocket {
             }
         }
     }
-    
+
     public function disconnect() {
         if (_socket != null) {
             _socket.onopen = null;
@@ -48,7 +48,7 @@ class JavaScriptSocket {
             _socket = null;
         }
     }
-    
+
     public function sendMessage(msg:Msg) {
         var data:String = ClientSocket.serializeMsg(msg);
         _socket.send(data);

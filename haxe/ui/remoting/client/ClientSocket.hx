@@ -33,7 +33,7 @@ class ClientSocket {
         _socket.onError = onError;
         _socket.connect(host, port);
     }
-    
+
     public function disconnect() {
         if (_socket != null) {
             _socket.disconnect();
@@ -42,7 +42,7 @@ class ClientSocket {
             _socket = null;
         }
     }
-    
+
     public function sendMessage(msg:Msg) {
         _socket.sendMessage(msg);
     }

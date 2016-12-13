@@ -16,10 +16,11 @@ class Client {
         throw "Not implemented";
     }
 
-    public function makeCall(id:String, params:Map<String, String> = null, fn:Dynamic->Void = null) {
+    public function makeCall(id:String, params:Dynamic = null, fn:Dynamic->Void = null) {
         if (fn != null) {
             _callMap.set(id, fn);
         }
+
         sendMessage({
            id: id,
            details: params
@@ -38,9 +39,9 @@ class Client {
     }
 
     public function close() {
-        
+
     }
-    
+
     public static function serializeMsg(msg:Msg):String {
         var serializer:Serializer = new Serializer();
         serializer.serialize(msg);

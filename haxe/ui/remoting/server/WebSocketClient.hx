@@ -11,7 +11,7 @@ class WebSocketClient extends Client {
     public override function sendMessage(msg:Msg) {
         connection.ws.send(Client.serializeMsg(msg));
     }
-    
+
     public override function close() {
         connection.ws.socket.close();
     }

@@ -28,7 +28,7 @@ class ListComponents extends Call {
         if (c.id == null) {
             c.id = "__" + GUID.uuid();
         }
-        
+
         if (c.id != null)                           i.id = c.id;
         if (c.left != null)                         i.left = c.left;
         if (c.top != null)                          i.top = c.top;

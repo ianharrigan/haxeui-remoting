@@ -199,7 +199,7 @@ class WebSocketServerLoop<TClientData:ClientData> extends cpp.net.ServerLoop<TCl
     public dynamic function processIncomingMessage(data:TClientData, message:String)
     {
     }
-    
+
     public dynamic function processClientDisconnected(data:TClientData)
     {
     }

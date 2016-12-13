@@ -31,7 +31,7 @@ class WebSocketServer {
 
     public function stop() {
     }
-    
+
     @:access(haxe.ui.remoting.server.Client)
     private function serverThread() {
         var that:WebSocketServer = Thread.readMessage(true);

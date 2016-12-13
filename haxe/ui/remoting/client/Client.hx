@@ -23,7 +23,7 @@ class Client {
         _socket.onError = onError;
         _socket.connect(host, port);
     }
-    
+
     private function onMessage(msg:Msg) {
         var call:Call = Call.create(msg.id);
         if (msg.id == "client.connected") {
@@ -48,14 +48,14 @@ class Client {
             _socket.sendMessage(response);
         }
     }
-    
+
     #if (neko || cpp)
     private function onError(error:String) {
         trace(error);
         var t:Thread = Thread.create(retryThread);
         t.sendMessage(this);
     }
-    
+
     private function retryThread() {
         var that:Client = Thread.readMessage(true);
         Sys.sleep(5);

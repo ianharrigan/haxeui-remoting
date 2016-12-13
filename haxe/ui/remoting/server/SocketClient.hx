@@ -15,7 +15,7 @@ class SocketClient extends Client {
         socket.output.writeInt32(data.length);
         socket.write(data);
     }
-    
+
     public override function close() {
         socket.close();
     }

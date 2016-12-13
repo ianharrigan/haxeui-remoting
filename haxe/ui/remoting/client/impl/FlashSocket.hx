@@ -30,7 +30,7 @@ class FlashSocket {
         //_socket.timeout = 0;
         _socket.connect(host, port);
     }
-    
+
     public function disconnect() {
         if (_socket != null) {
             _socket.removeEventListener(ProgressEvent.SOCKET_DATA, onData);
@@ -44,7 +44,7 @@ class FlashSocket {
             _socket = null;
         }
     }
-    
+
     public function sendMessage(msg:Msg) {
         var data:String = ClientSocket.serializeMsg(msg);
         _socket.writeInt(data.length);
@@ -58,7 +58,7 @@ class FlashSocket {
         if (socket.bytesAvailable <= 4) {
             return;
         }
-        
+
         var len = socket.readInt();
         while (len <= cast(socket.bytesAvailable, Int)) {
             var s:String = socket.readUTFBytes(len);
